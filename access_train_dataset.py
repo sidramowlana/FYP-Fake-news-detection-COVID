@@ -14,6 +14,7 @@ class access_dataset_class:
         df.loc[df['label'] == 'Fake', 'label'] = '0'
         df.loc[df['label'] == 'FAKE', 'label'] = '0'
         df.loc[df['label'] == 'TRUE', 'label'] = '1'
+        df.loc[df['label'] == 'True', 'label'] = '1'
         text_column = pd.DataFrame(df,columns=['text'])
         for index, row in text_column.iterrows():
             self.my_list.append(row['text'])
@@ -25,7 +26,8 @@ class access_dataset_class:
         df2.loc[df2['label'] == 'Fake', 'label'] = '0'
         df2.loc[df2['label'] == 'FAKE', 'label'] = '0'
         df2.loc[df2['label'] == 'TRUE', 'label'] = '1'
-        label_column = pd.DataFrame(df2,columns=['label'])
+        df2.loc[df2['label'] == 'True', 'label'] = '1'
+        label_column = df2['label'].values        
         return label_column   
     
 

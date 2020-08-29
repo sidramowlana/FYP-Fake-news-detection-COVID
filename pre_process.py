@@ -6,6 +6,7 @@ import array
 import ftfy
 import emoji
 from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from string import digits
@@ -35,6 +36,7 @@ class pre_process_class:
             "]+", flags=re.UNICODE)
         emoji_removed_text = emoji_pattern.sub(r'', text)
         return emoji_removed_text
+        
     def clean(self,text_list):
         cleaned_data = []
         for text in text_list:
@@ -50,8 +52,22 @@ class pre_process_class:
             data = re.sub(r"[^\w\s]", " ", data) # Remove non-letters, but don't remove whitespaces just yet
             data = re.sub(r' +', ' ', data)  # remove multiple white space
             cleaned_data.append(data)
+            # data = self.tokenize(cleaned_data)
+            # print(data)
         return cleaned_data
     
+
+    def tokenize(self,text):
+        stop_words = set(stopwords.words('english'))  
+        word_tokens = word_tokenize(text)        
+        filtered_sentence = []
+        for word_token in word_tokens:
+            if word_token not in stop_words:
+                filtered_sentence.append(word_token)
+        # Joining words
+        text = (' '.join(filtered_sentence))
+        return text
+
     def lemmatization(self,text_list):
         lemmatized_sentence=[]
         for text in text_list:
@@ -67,8 +83,3 @@ class pre_process_class:
         cleaned = self.clean(my_list)
         lemmatized = self.lemmatization(cleaned)
         return lemmatized
-
-
-# text = "The Corona #virus is a man made studying created in the lab? on 2019-12-12"
-# process_instance =  Preprocess()
-# Preprocess.pre_process_text(process_instance,text)
