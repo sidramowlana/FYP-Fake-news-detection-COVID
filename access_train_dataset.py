@@ -14,6 +14,7 @@ class access_dataset_class:
         df.loc[df['label'] == 'Fake', 'label'] = '0'
         df.loc[df['label'] == 'FAKE', 'label'] = '0'
         df.loc[df['label'] == 'TRUE', 'label'] = '1'
+        df.loc[df['label'] == 'true', 'label'] = '1'
         df.loc[df['label'] == 'True', 'label'] = '1'
         text_column = pd.DataFrame(df,columns=['text'])
         for index, row in text_column.iterrows():
@@ -21,13 +22,12 @@ class access_dataset_class:
         return self.my_list
 
     def read_label_csv(self):
-        df2 = pd.read_csv(r"covid_dataset.csv")
-        df2.loc[df2['label'] == 'fake', 'label'] = '0'
-        df2.loc[df2['label'] == 'Fake', 'label'] = '0'
-        df2.loc[df2['label'] == 'FAKE', 'label'] = '0'
-        df2.loc[df2['label'] == 'TRUE', 'label'] = '1'
-        df2.loc[df2['label'] == 'True', 'label'] = '1'
-        label_column = df2['label'].values        
+        df = pd.read_csv(r"covid_dataset.csv")
+        df.loc[df['label'] == 'fake', 'label'] = '0'
+        df.loc[df['label'] == 'Fake', 'label'] = '0'
+        df.loc[df['label'] == 'FAKE', 'label'] = '0'
+        df.loc[df['label'] == 'TRUE', 'label'] = '1'
+        df.loc[df['label'] == 'true', 'label'] = '1'
+        df.loc[df['label'] == 'True', 'label'] = '1'
+        label_column = df['label'].values        
         return label_column   
-    
-

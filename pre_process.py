@@ -13,8 +13,8 @@ from string import digits
 
 
 class pre_process_class:    
-    def __init__(self,text):
-        self.text = text
+    def __init__(self):
+        pass
  
     def remove_emoji(self,text):
         emoji_pattern = re.compile("["
@@ -50,16 +50,15 @@ class pre_process_class:
             data = ftfy.fix_text(data) #remove aetm
             data=data.lower()  # lower case
             data = re.sub(r"[^\w\s]", " ", data) # Remove non-letters, but don't remove whitespaces just yet
-            data = re.sub(r' +', ' ', data)  # remove multiple white space
+            data = re.sub(r' +', ' ', data)  # remove multiple white space            
+            data = self.tokenize(data)
             cleaned_data.append(data)
-            # data = self.tokenize(cleaned_data)
-            # print(data)
         return cleaned_data
     
 
     def tokenize(self,text):
-        stop_words = set(stopwords.words('english'))  
-        word_tokens = word_tokenize(text)        
+        stop_words = set(stopwords.words('english'))        
+        word_tokens = word_tokenize(text)
         filtered_sentence = []
         for word_token in word_tokens:
             if word_token not in stop_words:
@@ -78,8 +77,6 @@ class pre_process_class:
         return lemmatized_sentence  
       
     def pre_process_text(self,text):
-        text = self.text
-        my_list=text
-        cleaned = self.clean(my_list)
+        cleaned = self.clean(text)
         lemmatized = self.lemmatization(cleaned)
         return lemmatized
