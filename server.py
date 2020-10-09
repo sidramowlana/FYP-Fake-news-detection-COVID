@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, Response
+import datetime
 import my_main as m
 import database.db_models as db_models
 from flask_cors import CORS
@@ -30,20 +31,19 @@ def login():
         return jsonify({"error_message": "Invalid Credentials", "status": 400})
 
 
+# get all validated tweets of a user
 @app.route("/api/tweets/all/<username>",methods=['GET'])
 def getAllUserPostHistory(username):
-    # postList = db_models.Tweets.objects(username=username).all().to_json()
     postList = db_models.Tweets.objects(username=username).all().to_json()
     lists = json.dumps(postList)
     print(postList)
-    #print(lists)
     if postList:
         return postList
     else:
         return jsonify({"message": "Empty History", "status": 200})
 
 
-@app.route("/api/getAPost/add", methods=['POST'])
+@app.route("/api/getAPost/add", methods=['GET'])
 def getAddPost():
     print("")
     requestData = request.get_json()
@@ -52,7 +52,7 @@ def getAddPost():
     print(str(user['id']))
     return "hii"
 
-
+# get a particular validated post of a user
 @app.route("/api/getAPost/<userid>/<postid>", methods=['GET'])
 def getAPost(userid, postid):
     post = db_models.Tweets.objects(userid=userid, postid=postid).get().to_json()
@@ -65,17 +65,21 @@ def getAllUser():
     print(users)
     return "ok"
 
-@app.route("/check-tweet", methods=['GET'])
-def validateTweet():
-    print("started")
-    url = request.args['url']
-    validated_result = m.validate_tweet_url(url)
-    print(validated_result)
-    # save the url and the validity in the table
-    return "h1"
+@app.route("/api/check-tweet/<username>/<postId>", methods=['GET'])
+def validateTweet(username,postId):
+    print(username)
+    # pass the value to the model and get the percentage value
+    now = datetime.datetime.now()
+    current_date = now.strftime("%Y/%m/%d %H:%M:%S")
+    data = m.get_validated_tweet_data(postId)
+    screenname=data['screen_name']
+    data['username']=username
+    data['url']="https://twitter.com/"+screenname+"/status/"+postId
+    data['percentage']=20
+    data['date']=current_date
+    tweet = db_models.Tweets(**data).save()
+    return jsonify({"tweet": tweet.to_json(), "message": "Successfully validated", "status": 200})
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080, debug=True)
-
-
-# https://docs.google.com/forms/d/1xkSHVYLVuHrKvZPggNXY9puLmb8JrK_wyE3uO5eeQPI/edit#responses

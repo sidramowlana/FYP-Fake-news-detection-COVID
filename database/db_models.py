@@ -19,20 +19,31 @@ class User(db.Document):
         }
 
 class Tweets(db.Document):    
+    postId =db.StringField(required=True)
     url = db.StringField(required= True)
     text = db.StringField(required= True)
     scaledImage = db.StringField(required= True)
     percentage = db.IntField(required= True)
     date = db.StringField(required=True)
     username = db.StringField(required=True)
+    screen_name = db.StringField(required=True)
+    created_date = db.StringField(required=True)
+    followings = db.IntField(required=True)
+    followers = db.IntField(required=True)
+    likes = db.IntField(required=True)
 
     def to_json(self):
         return{
-            'id':str(self.pk),
+            'postId':self.postId,
             'url': self.url,
             'text':self.text,
             'scaledImage':self.scaledImage,
             'percentage':self.percentage,
             'date':self.date,
-            'username':self.username
+            'username':self.username,
+            'screen_name':self.screen_name,
+            'created_date':self.created_date,
+            'followings':self.followings,
+            'followers':self.followers,
+            'likes':self.likes
         }

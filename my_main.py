@@ -11,6 +11,12 @@ def tweet_retrievel(url):
     new_text = twitter_api.get_tweet_post_id_text(api, url)
     return new_text
 
+def tweet_data_retrievel(postId):
+    twitter_api = twitter_extractor.twitter_extractor_class()
+    twitter_api.create_tweepy_api()
+    api = twitter_api.create_tweepy_api()
+    tweet_data = twitter_api.get_tweet_data(api, postId)
+    return tweet_data
 
 def train_my_model():
     train = train_model.train_model_class()
@@ -37,14 +43,28 @@ def predict_new_text(text):
     return new_result
 
 
-if __name__ == "__main__":
-    print("Initializing the main method!")
-    # print("*****************************train*****************************")
-    # train_my_model()
-    # print("main train")
 
-    print("*****************************validate*****************************")
+def validate_tweet_url(url):
+    print("begin url")
     tweet_text = tweet_retrievel(url)
-    result = predict_new_text(tweet_text)
-    print(result)
-    print("*****************************end*****************************")
+    return tweet_text
+    # put it to the model
+
+
+def get_validated_tweet_data(postId):
+    tweet_data = tweet_data_retrievel(postId)
+    return tweet_data    
+
+
+
+# if __name__ == "__main__":
+#     print("Initializing the main method!")
+#     # print("*****************************train*****************************")
+#     # train_my_model()
+#     # print("main train")
+
+#     print("*****************************validate*****************************")
+#     tweet_text = tweet_retrievel(url)
+#     # result = predict_new_text(tweet_text)
+#     print(tweet_text)
+#     print("*****************************end*****************************")
