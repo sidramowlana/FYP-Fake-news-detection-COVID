@@ -2,11 +2,9 @@ from .access_train_dataset import *
 import pandas as pd
 import numpy as np
 import pickle
-from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.corpus import stopwords
 from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import PassiveAggressiveClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
 
@@ -34,7 +32,7 @@ class feature_extraction_class:
         pickle.dump(tfidf_vectorizer, open(vec_file, 'wb'))
         return tfidf_train, b_train, tfidf_test, b_test
 
-    def new_tfidf(self, new_text):
+    def vectorize_text(self, new_text):
         # load the vectorizer
         loaded_vectorizer = pickle.load(open(os.path.normpath(
             os.getcwd() + os.sep)+'\model\Vectorizer.pickle', 'rb'))

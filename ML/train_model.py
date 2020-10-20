@@ -62,5 +62,3 @@ class train_model_class:
             final_outcome = pclass.predict(result)[0]
             return final_outcome
 
-
-# malmut

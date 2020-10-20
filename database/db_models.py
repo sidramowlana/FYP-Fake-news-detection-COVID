@@ -1,4 +1,3 @@
-
 import datetime
 import mongoengine as db
 import uuid
@@ -18,12 +17,12 @@ class User(db.Document):
             'password':self.password,
         }
 
-class Tweets(db.Document):    
+class Tweets(db.Document):   
     postId =db.StringField(required=True)
     url = db.StringField(required= True)
     text = db.StringField(required= True)
-    scaledImage = db.StringField(required= True)
-    percentage = db.IntField(required= True)
+    scaled_image = db.StringField(required= True)
+    validation = db.StringField(required= True)
     date = db.StringField(required=True)
     username = db.StringField(required=True)
     screen_name = db.StringField(required=True)
@@ -37,8 +36,8 @@ class Tweets(db.Document):
             'postId':self.postId,
             'url': self.url,
             'text':self.text,
-            'scaledImage':self.scaledImage,
-            'percentage':self.percentage,
+            'scaled_image':self.scaled_image,
+            'validation':self.validation,
             'date':self.date,
             'username':self.username,
             'screen_name':self.screen_name,
