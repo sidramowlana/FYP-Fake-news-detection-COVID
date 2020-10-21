@@ -12,7 +12,6 @@ CORS(app)
 @app.route("/api/register", methods=["POST"])
 def register():
     requestData = request.get_json()
-    print(requestData)
     try:
         user = db_models.User(**requestData).save()
         return jsonify({"user": user.to_json(), "message": "Registered Successfully", "status": 200})
@@ -56,12 +55,14 @@ def getAPost(postId):
 # //gets the tweet details no validation
 @app.route("/api/check-tweet/<username>/<postId>", methods=['GET'])
 def validateTweet(username, postId):
-    print(username)
-    # call the model and validate it
-    # result = m.validate_tweet_text(postId)
-    # data['validation'] = result
-    # pass the text to the trained model
-
+    final_result = m.validate_tweet_text(postId)
+    print(final_result)
+    if final_result == '0':
+        validate='Fake'
+        print("Fake")
+    else:
+        validate='True'
+        print("True")
     # get the tweet data
     now = datetime.datetime.now()
     current_date = now.strftime("%Y/%m/%d %H:%M:%S")
@@ -69,7 +70,7 @@ def validateTweet(username, postId):
     screenname = data['screen_name']
     data['username'] = username
     data['url'] = "https://twitter.com/"+screenname+"/status/"+postId
-    data['validation'] = "True" #assign the result to the validation
+    data['validation'] = validate #assign the result to the validation
     data['date'] = current_date
     tweet = db_models.Tweets(**data).save()
     return jsonify({"tweet": tweet.to_json(), "message": "Successfully validated", "status": 200})
@@ -77,10 +78,7 @@ def validateTweet(username, postId):
 
 @app.route("/api/check-model/<username>/<postId>", methods=['GET'])
 def validateTweetCheck(username, postId):
-    print(username)
-    # call the model and validate it
-    text = m.validate_tweet_text(postId)
-    final_result = m.predict_new_text(text)
+    final_result = m.validate_tweet_text(postId)
     print(final_result)
     if final_result == '0':
         validate='false'
@@ -98,10 +96,6 @@ def validateTweetCheck(username, postId):
     data['date'] = current_date
     tweet = db_models.Tweets(**data).save()
     return jsonify({"tweet": tweet.to_json(), "message": "Successfully validated", "status": 200})
-
-
-    # data['validation'] = result
-    # pass the text to the trained model
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080, debug=True)

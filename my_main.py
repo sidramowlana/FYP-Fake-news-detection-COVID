@@ -32,18 +32,6 @@ def train_my_model():
         tfidf_train, b_train, tfidf_test, b_test)
     print("saved model")
     
-def predict_new_text(text):
-    print("begin")
-    train = train_model.train_model_class()
-    processed = pre_process.pre_process_class()
-    final_text = processed.pre_process_text(text)
-    print(final_text, "predict")
-    extracted = feature_extraction.feature_extraction_class()
-    vectorized_result = extracted.vectorize_text(final_text)
-    new_result = train.load_model(vectorized_result)
-    return new_result
-
-
 def validate_tweet_text(postId):
     tweet_text = tweet_text_retrievel(postId);
     train = train_model.train_model_class()
@@ -53,16 +41,3 @@ def validate_tweet_text(postId):
     result = extracted.vectorize_text(final_text)
     new_result = train.load_model(result)
     return new_result
-
-
-# if __name__ == "__main__":
-#     print("Initializing the main method!")
-#     # print("*****************************train*****************************")
-#     # train_my_model()
-#     # print("main train")
-
-#     print("*****************************validate*****************************")
-#     tweet_text = tweet_retrievel(url)
-#     # result = predict_new_text(tweet_text)
-#     print(tweet_text)
-#     print("*****************************end*****************************")
