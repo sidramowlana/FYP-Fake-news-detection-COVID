@@ -16,7 +16,7 @@ def register():
         user = db_models.User(**requestData).save()
         return jsonify({"user": user.to_json(), "message": "Registered Successfully", "status": 200})
     except:
-        return jsonify({"error_message": "Username already taken", "status": 400})
+        return jsonify({"message": "Username already taken", "status": 400})
 
 # login user
 @app.route("/api/login", methods=["POST"])

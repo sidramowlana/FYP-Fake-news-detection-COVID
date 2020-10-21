@@ -16,12 +16,6 @@ class twitter_extractor_class:
         auth.set_access_token(self.access_token, self.access_token_secret)
         return tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 
-    # def get_tweet_post_id_text(self, api, postId):
-    #     print(postId)
-    #     tweet_object = api.get_status(postId)
-    #     tweet_text = [tweet_object["text"]]
-    #     return tweet_text
-
     def get_tweet_post_id_text(self,api,postId):
         try:
             tweet_object = api.get_status(postId)

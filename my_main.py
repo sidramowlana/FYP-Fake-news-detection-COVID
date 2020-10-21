@@ -10,6 +10,8 @@ def tweet_text_retrievel(postId):
     twitter_api.create_tweepy_api()
     api = twitter_api.create_tweepy_api()
     new_text = twitter_api.get_tweet_post_id_text(api, postId)
+    # retrieved tweet text for the given post id
+    print(new_text)
     return new_text
 
 # get the tweet details for the postid
@@ -18,6 +20,8 @@ def tweet_data_retrievel(postId):
     twitter_api.create_tweepy_api()
     api = twitter_api.create_tweepy_api()
     tweet_data = twitter_api.get_tweet_data(api, postId)
+    # retrieved tweet objejct for the given post id
+    print(tweet_data)
     return tweet_data
 
 def train_my_model():
@@ -25,6 +29,7 @@ def train_my_model():
     text = access_train_dataset.access_dataset_class().read_text_csv()
     processed = pre_process.pre_process_class()
     final_text = processed.pre_process_text(text)
+    # preprocessed text
     print(final_text)
     extracted = feature_extraction.feature_extraction_class()
     tfidf_train, b_train, tfidf_test, b_test = extracted.tfidf_text(final_text)
